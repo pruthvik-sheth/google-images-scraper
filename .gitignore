@@ -1,0 +1,7 @@
+csv_downloads/**
+!csv_downloads
+image_downloads/**
+!image_downloads
+labels/**
+!labels
+email_details.py
