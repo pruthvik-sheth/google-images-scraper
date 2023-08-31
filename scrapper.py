@@ -28,7 +28,7 @@ def get_img_containers():
         print("\n🔴🔴 Error while fetching image containers! 🔴🔴")
 
 def load_all_thumbnails(url):
-    
+    # Comment from Rahil
     wd.get(url)
     containers, img_containers = get_img_containers()
 
