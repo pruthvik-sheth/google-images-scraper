@@ -8,8 +8,6 @@ from urllib import parse
 from colorama import Fore
 import time
 import csv
-
-
 class Scraper:
     
     def __init__(self, num_threads = 1, show_ui = True) -> None:
@@ -18,7 +16,27 @@ class Scraper:
         self.__thread_pool = []
         self.__shared_index = 0
         self.__shared_index_lock = Lock()
-        self.__images = []
+        self.__images = set()
+
+    def _create_threads(self):
+        
+        for i in range(self.__num_threads):
+            thread = Thread(target = self._get_images)
+            self.__thread_pool.append(thread)
+            thread.start()
+
+    def _destroy_threads(self):
+        for thread in self.__thread_pool:
+            thread.join()
+        print(len(self.__images))
+
+    def _create_driver(self):
+        self.__options = webdriver.ChromeOptions()
+        self.__options.add_argument("incognito")
+        if not self.__show_ui:
+            self.__options.add_argument("headless")
+        driver = webdriver.Chrome()
+        return driver
 
     def _load_thumbnails(self, driver):
         def get_thumbnails():
@@ -28,9 +46,7 @@ class Scraper:
                 print(f"🤖: Found {len(thumbnails)} image containers!")
             except Exception as e:
                 print("\n🔴🔴 Error while fetching image containers! 🔴🔴")
-            
             return thumbnails
-
         thumbnails = get_thumbnails()
 
         while len(thumbnails) < self.__image_limit:
@@ -50,18 +66,6 @@ class Scraper:
         driver.execute_script("window.scrollTo(0,0)")
         time.sleep(2)
         return thumbnails
-    
-    def save_links(self):
-        print(Fore.GREEN + '📩📩 Saving to csv 📩📩')
-        print(Fore.RESET)
-        filename = "hello.csv"
-        
-        try:
-            with open(filename, 'a', newline='') as csvfile: 
-                csvwriter = csv.writer(csvfile) 
-                csvwriter.writerows(self.__images)
-        except Exception as e:
-            print("\n🔴🔴 An error occured while saving the link into csv! 🔴🔴")
 
     def _get_images(self):
         driver = webdriver.Chrome()
@@ -86,35 +90,15 @@ class Scraper:
                     img_window = driver.find_element(By.XPATH, """//img[@class='r48jcc pT0Scc iPVvYb']""")
                     # time.sleep(2)
                     link = img_window.get_attribute('src')
-                    self.__images.append([link])
+                    self.__images.add(link)
                     print(link)
                 else:
-                    print("Complete!")
+                    print("✔️✔️✔️ Links Scraping complete! ✔️✔️✔️")
                     break
                                     
             except Exception as e:
-                print(" \n An error occurred!", e)
+                print(" \n🔴🔴🔴 An error occurred! 🔴🔴🔴")
                 continue
-            
-    def _create_threads(self):
-        
-        for i in range(self.__num_threads):
-            thread = Thread(target = self._get_images)
-            self.__thread_pool.append(thread)
-            thread.start()
-
-    def _destroy_threads(self):
-        for thread in self.__thread_pool:
-            thread.join()
-        print(len(self.__images))
-
-    def _create_driver(self):
-        self.__options = webdriver.ChromeOptions()
-        self.__options.add_argument("incognito")
-        if not self.__show_ui:
-            self.__options.add_argument("headless")
-        driver = webdriver.Chrome()
-        return driver
 
     @staticmethod
     def create_url(search_query):
@@ -128,7 +112,7 @@ class Scraper:
         start = time.time()
         self._create_threads()
         self._destroy_threads()
-        self.save_links()
         end = time.time()
         
-        print(f"Total elapsed time for {self.__image_limit} images is: ", (end - start))
+        print(f"Total elapsed time for {self.__image_limit} images is: {(end - start) / 60} mins")
+        return self.__images
