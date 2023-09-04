@@ -1,7 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support     import expected_conditions as EC
 
 from colorama import Fore
 
@@ -60,10 +60,11 @@ def save_links(index, cache):
             csvwriter.writerows(cache)
     except Exception as e:
         print("\n🔴🔴 An error occured while saving the link into csv! 🔴🔴")
-    
 
 if __name__ == "__main__":
     
+
+    start = time.time()
     wait = WebDriverWait(wd, 10)
 
     for category_index,category_url in enumerate(CATEGORY_URLS):
@@ -93,9 +94,11 @@ if __name__ == "__main__":
                 continue
         print(Fore.RESET)
         save_links(category_index, links_cache)
+
         print("📧 Sending email!...")
         send_email(f"Finished scraping all {CATEGORIES[category_index]} images!")
-        
+    end = time.time()
+    print(f"Total elapsed time for {IMAGE_LIMIT} images is: ", (end - start))
     
     print("\n ✅✅✅✅ Links Scrapping Complete ✅✅✅✅ \n")
     print("🔵🔵🔵 Starting to download images 🔵🔵🔵")

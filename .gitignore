@@ -5,3 +5,4 @@ image_downloads/**
 labels/**
 !labels/.gitkeep
 email_details.py
+__pycache__
