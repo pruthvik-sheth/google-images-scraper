@@ -13,7 +13,6 @@ Google Images Scraper is a Python tool designed to scrape high-resolution images
 - [Contributing](#contributing)
 - [License](#license)
 <br>
-<br>
 
 ## Installation
 
@@ -35,7 +34,6 @@ Google Images Scraper is a Python tool designed to scrape high-resolution images
    pip install -r requirements.txt
    ```
 <br>
-<br>
 
 ## Usage
 
@@ -48,13 +46,10 @@ Google Images Scraper is a Python tool designed to scrape high-resolution images
    This script will fetch high-resolution images from Google Images based on the provided links using multi-threading for faster scraping.
 
 <br>
-<br>
 
 ## Configuration
 
 You can customize the behavior of the scraper by modifying the `config.yaml` file.
-
-<br>
 <br>
 
 ### Email Configuration
@@ -64,17 +59,14 @@ You can customize the behavior of the scraper by modifying the `config.yaml` fil
 - `sender_email_password`: The password for the sender's email account.
 
 **Note**: If you want to use the email notifications functionality with a Gmail account, it's recommended to generate an [App Password](https://support.google.com/mail/answer/185833?hl=en) instead of using your account password.
-<br>
 
 ### Search Queries
 
 - `search_queries`: List of search queries to use when scraping Google Images. You can add or remove queries as needed.
-<br>
 
 ### Images Limit
 
 - `images_limit`: Set the maximum number of images to download per category.
-<br>
 <br>
 
 ### Project Structure
@@ -89,7 +81,6 @@ You can customize the behavior of the scraper by modifying the `config.yaml` fil
 - `main.py`: The main entry point for running the Google Images Scraper.
 
 Certainly, here's an additional section in your README.md with information about using `main.py` and customizing the Scraper class:
-<br>
 <br>
 
 ## Getting Started with `main.py`
@@ -118,7 +109,6 @@ The rest of the process is straightforward:
 
 Customize the `num_threads` and `show_ui` options in the `Scraper` class instance to tailor the scraping process to your specific requirements.
 <br>
-<br>
 
 
 ## Contributing
@@ -131,7 +121,6 @@ Contributions to Google Images Scraper are welcome and encouraged! To contribute
 4. Commit your changes with descriptive commit messages.
 5. Push your changes to your fork.
 6. Open a pull request, explaining the changes you've made.
-<br>
 <br>
 
 ## License
