@@ -79,11 +79,9 @@ You can customize the behavior of the scraper by modifying the `config.yaml` fil
 - `config.yaml`: Configuration file to set up email and scraping parameters.
 - `LinkSaver.py`: Handles saving image links.
 - `main.py`: The main entry point for running the Google Images Scraper.
-
-Certainly, here's an additional section in your README.md with information about using `main.py` and customizing the Scraper class:
 <br>
 
-## Getting Started with `main.py`
+## Getting Started
 
 In `main.py`, an instance of the `Scraper` class is created as follows:
 
@@ -106,10 +104,7 @@ The rest of the process is straightforward:
 6. The scraper will start fetching high-resolution images from Google Images based on the provided links and configurations, using the specified number of threads and UI visibility.
 
 7. Monitor the scraping progress and any notifications sent via email, as configured in `config.yaml`.
-
-Customize the `num_threads` and `show_ui` options in the `Scraper` class instance to tailor the scraping process to your specific requirements.
 <br>
-
 
 ## Contributing
 
