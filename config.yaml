@@ -2,10 +2,8 @@ sender_email: ""
 receiver_email: ""
 sender_email_password: ""
 
-# csv_saving_path: ""
-
 search_queries:
-  - Bathrooma
-  # - Bedroom
+  - Bathroom
+  - Bedroom
 
 images_limit: 100
