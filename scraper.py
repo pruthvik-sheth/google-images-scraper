@@ -13,7 +13,7 @@ class Scraper:
     def __init__(self, num_threads = 1, show_ui = True) -> None:
         self.__num_threads = num_threads
         self.__show_ui = show_ui
-        self.__thread_pool = []
+        self.__threads_pool = []
         self.__shared_index = 0
         self.__shared_index_lock = Lock()
         self.__images = set()
@@ -22,13 +22,12 @@ class Scraper:
         
         for i in range(self.__num_threads):
             thread = Thread(target = self._get_images)
-            self.__thread_pool.append(thread)
+            self.__threads_pool.append(thread)
             thread.start()
 
     def _destroy_threads(self):
-        for thread in self.__thread_pool:
+        for thread in self.__threads_pool:
             thread.join()
-        print(len(self.__images))
 
     def _create_driver(self):
         self.__options = webdriver.ChromeOptions()
@@ -84,7 +83,7 @@ class Scraper:
                 if not index >= self.__image_limit:
                     # print(len(self.__images))
                     thumbnails[index].click()
-                    print(index)
+                    # print(index)
                     time.sleep(2)
                     wait.until(EC.visibility_of_element_located((By.XPATH, """//img[@class='r48jcc pT0Scc iPVvYb']""")))
                     img_window = driver.find_element(By.XPATH, """//img[@class='r48jcc pT0Scc iPVvYb']""")
@@ -113,6 +112,7 @@ class Scraper:
         self._create_threads()
         self._destroy_threads()
         end = time.time()
+        print(len(self.__images))
         
         print(f"Total elapsed time for {self.__image_limit} images is: {(end - start) / 60} mins")
         return self.__images

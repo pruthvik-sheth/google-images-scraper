@@ -1,42 +1,76 @@
-
+from threading import Thread, Lock
 import requests as req
 import io
 from PIL import Image
 import os
-from sources import IMAGE_DOWNLOAD_PATH, LABEL_SAVE_PATH
+import time
 
-def generate_label(category, file_num, cat_idx):
-    file_name = f"{category}_{file_num}.txt"
-    check_path = f"{LABEL_SAVE_PATH}/{category}"
-    file_path = f"{LABEL_SAVE_PATH}/{category}/{file_name}"
+class Downloader:
 
-    line_to_write = f'{cat_idx} 0.5 0.5 1.0 1.0'
+    def __init__(self, path, min_num_threads = 5) -> None:
+        self.__path = path
+        self.__min_num_threads = min_num_threads
+        self.__threads_pool = []
 
-    if not os.path.exists(check_path):
-        os.makedirs(check_path)
-    with open(file_path, 'w') as file:
-        file.write(line_to_write)
-    print("Written label: ", file_name)
+    def _create_threads(self):
+        num_batches = self.__min_num_threads
+        total_links = len(self.__image_links)
+        batch_size = total_links // num_batches
+        leftover = total_links % batch_size
 
-def download_image(url, category, file_num, cat_idx):
-    file_name = f"{category}_{file_num}.jpg"
-    image_content = req.get(url).content
-    image_file = io.BytesIO(image_content)
-    pil_image = Image.open(image_file)
+        for i in range(self.__min_num_threads):
+            start_idx = i * batch_size
+            end_idx = (i + 1) * batch_size
+            thread = Thread(target = self.download_image, args = (i+1, start_idx, end_idx))
+            self.__threads_pool.append(thread)
 
-    if len(pil_image.getbands()) == 3:
-        check_path = f"{IMAGE_DOWNLOAD_PATH}/{category}"
-        file_path = f"{IMAGE_DOWNLOAD_PATH}/{category}/{file_name}"
+        if leftover > 0:
+            start_idx = num_batches * batch_size
+            end_idx = total_links
+            thread = Thread(target = self.download_image, args = (i+2, start_idx, end_idx))
+            self.__threads_pool.append(thread)
+        
+        for thread in self.__threads_pool:
+            thread.start()
+    
+    def _destroy_threads(self):
+        for thread in self.__threads_pool:
+            thread.join()
+
+    def download(self, image_links, category):
+        self.__image_links = image_links
+        self.__category = category
+
+        check_path = f"{self.__path}/{self.__category}"
         if not os.path.exists(check_path):
             os.makedirs(check_path)
-        with open(file_path, "wb") as f:
-            pil_image.save(f)
+
+        self._create_threads()
+        self._destroy_threads()
         
-        print("Downloaded: ", file_name)
-        try:
-            generate_label(category, file_num, cat_idx)
-        except Exception as e:
-            print(f"🔵🔵 An error occurred while writing labels ({file_name})! 🔵🔵")
-    else:
-        print("🔵🔵 An image with alpha channel found, hence discarding it!! 🔵🔵")
+    def download_image(self, thread_num,  start_idx, end_idx):
+            print(f"Thread {thread_num} running: ")
+            print(len(self.__image_links))
+            print(start_idx, end_idx)
+            # for link in enumerate(self.__image_links):
+            for i in range(start_idx, end_idx):
+                try:
+                    file_name = f"{self.__category}_{i + 1}.jpg"
+                    image_content = req.get(self.__image_links[i]).content
+                    image_file = io.BytesIO(image_content)
+                    pil_image = Image.open(image_file)
+                except Exception as e:
+                    print(f"🔴🔴🔴 Error while downloading the image: {i + 1}! 🔴🔴🔴")
+                    continue
+
+                if len(pil_image.getbands()) == 3:
+                    try:
+                        file_path = f"{self.__path}/{self.__category}/{file_name}"
+                        with open(file_path, "wb") as f:
+                            pil_image.save(f)
+                        print("Downloaded: ", file_name)
+                    except Exception as e:
+                        print(f"🔴🔴🔴 Error while saving the image no: {i + 1} 🔴🔴🔴")
+                else:
+                    print("🔵🔵 An image with alpha channel found, hence discarding it!! 🔵🔵")
 

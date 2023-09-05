@@ -2,8 +2,11 @@ sender_email: ""
 receiver_email: ""
 sender_email_password: ""
 
+csv_path: "./csv_downloads"
+image_path: "./image_downloads"
+
 search_queries:
-  - Bathroom
+  # - Bathroom
   - Bedroom
 
-images_limit: 100
+images_limit: 200
