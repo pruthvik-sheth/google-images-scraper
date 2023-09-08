@@ -56,7 +56,7 @@ class Downloader:
             for i in range(start_idx, end_idx):
                 try:
                     file_name = f"{self.__category}_{i + 1}.jpg"
-                    image_content = req.get(self.__image_links[i]).content
+                    image_content = req.get(self.__image_links[i], timeout = 10).content
                     image_file = io.BytesIO(image_content)
                     pil_image = Image.open(image_file)
                 except Exception as e:
