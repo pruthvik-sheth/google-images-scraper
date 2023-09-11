@@ -33,6 +33,3 @@ if __name__ == "__main__":
         link_saver.save_to_csv(links = scraped_links, filename = f"{query}.csv")
         downloader.download(list(scraped_links), query)
         # email_service.send_email(message = f"Finished Scraping {query} images")
-    
-
-
