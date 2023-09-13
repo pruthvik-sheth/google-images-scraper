@@ -4,9 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from threading import Thread, Lock
 from urllib import parse
-from colorama import Fore
 import time
-import csv
 class Scraper:
     
     def __init__(self, num_threads = 1, show_ui = True) -> None:
@@ -40,7 +38,7 @@ class Scraper:
         def get_thumbnails():
             try:
                 print("\n🤖: Fetching image containers...")
-                thumbnails = driver.find_elements(By.XPATH, "//div[@class='isv-r PNCib MSM1fd BUooTd']")
+                thumbnails = driver.find_elements(By.XPATH, "//div[@class='isv-r PNCib ViTmJb BUooTd']")
                 print(f"🤖: Found {len(thumbnails)} image containers!")
             except Exception as e:
                 print("\n🔴🔴 Error while fetching image containers! 🔴🔴")

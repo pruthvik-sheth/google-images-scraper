@@ -2,7 +2,6 @@ csv_downloads/**
 !csv_downloads/.gitkeep
 image_downloads/**
 !image_downloads/.gitkeep
-labels/**
-!labels/.gitkeep
-email_details.py
 __pycache__
+.venv
+.vscode

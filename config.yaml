@@ -6,7 +6,6 @@ csv_path: "./csv_downloads"
 image_path: "./image_downloads"
 
 search_queries:
-  - Bathroom
   - Bedroom
 
-images_limit: 700
+images_limit: 200

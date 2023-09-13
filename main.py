@@ -1,7 +1,7 @@
-from Scraper import Scraper
+from scraper import Scraper
 from EmailService import EmailService
 from LinkSaver import LinkSaver
-from Downloader import Downloader
+from downloader import Downloader
 import yaml
 
 if __name__ == "__main__":

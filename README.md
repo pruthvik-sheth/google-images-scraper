@@ -28,7 +28,26 @@ Google Images Scraper is a Python tool designed to scrape high-resolution images
    cd google-images-scraper
    ```
 
-3. Install the required dependencies:
+3. Create the environment:
+
+   ```bash
+   python -m venv .venv
+   ```
+4. Activate the Virtual Environment:
+
+   ```bash
+   # For Linux
+   source .venv/bin/activate
+
+   # For Windows
+   
+   # For Powershell
+   .venv/Scripts/Activate.ps1
+   # For Command Prompt
+   .venv/Scripts/activate.bat
+   ```
+
+4. Install the required dependencies:
 
    ```bash
    pip install -r requirements.txt
