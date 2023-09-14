@@ -37,9 +37,9 @@ class Scraper:
     def _load_thumbnails(self, driver):
         def get_thumbnails():
             try:
-                print("\n🤖: Fetching image containers...")
+                print("\nFetching image thumbnails...")
                 thumbnails = driver.find_elements(By.XPATH, "//div[@class='isv-r PNCib ViTmJb BUooTd']")
-                print(f"🤖: Found {len(thumbnails)} image containers!")
+                print(f"🤖: Found {len(thumbnails)} image thumbnails!")
             except Exception as e:
                 print("\n🔴🔴 Error while fetching image containers! 🔴🔴")
             return thumbnails
@@ -53,12 +53,16 @@ class Scraper:
             time.sleep(3)
             try:
                 end_of_page = driver.find_element(By.XPATH, """//input[@class='LZ4I']""").is_displayed()
+                no_more_results = driver.find_element(By.XPATH, """//div[@class='OuJzKb Yu2Dnd']""").is_displayed()
                 if end_of_page:
                     driver.find_element(By.XPATH, """//input[@class='LZ4I']""").click()
-            except Exception as e:
-                print("\n🔴🔴 Error finding the search more button! 🔴🔴")
 
-        print(f"🤖: Found a total of {len(thumbnails)} image containers!") 
+                if no_more_results:
+                    break
+            except Exception as e:
+                print("\n🔴🔴 Search more button not found! 🔴🔴")
+
+        print(f"🤖: Found a total of {len(thumbnails)} image thumbnails!") 
         driver.execute_script("window.scrollTo(0,0)")
         time.sleep(2)
         return thumbnails
@@ -93,7 +97,7 @@ class Scraper:
                     break
                                     
             except Exception as e:
-                print(" \n🔴🔴🔴 An error occurred! 🔴🔴🔴")
+                print(" \n🔴🔴 Link not found! 🔴🔴")
                 continue
 
     @staticmethod
