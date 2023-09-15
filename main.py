@@ -19,7 +19,7 @@ if __name__ == "__main__":
 
     print(search_queries)
     # Scraping Images
-    sc = Scraper(num_threads = 5, show_ui = True)
+    scraper = Scraper(num_threads = 5, show_ui = True)
     email_service = EmailService(
         sender = sender_email,
         receiver = receiver_email,
@@ -29,7 +29,7 @@ if __name__ == "__main__":
     downloader = Downloader(path = image_path)
 
     for query in search_queries:
-        scraped_links = sc.scrape(query = query, count = images_limit)
+        scraped_links = scraper.scrape(query = query, count = images_limit)
         link_saver.save_to_csv(links = scraped_links, filename = f"{query}.csv")
         downloader.download(list(scraped_links), query)
         # email_service.send_email(message = f"Finished Scraping {query} images")

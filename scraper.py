@@ -5,20 +5,31 @@ from selenium.webdriver.support import expected_conditions as EC
 from threading import Thread, Lock
 from urllib import parse
 import time
+
 class Scraper:
     
     def __init__(self, num_threads = 1, show_ui = True) -> None:
         self.__num_threads = num_threads
         self.__show_ui = show_ui
-        self.__threads_pool = []
-        self.__shared_index = 0
-        self.__shared_index_lock = Lock()
-        self.__images = set()
+        self.__drivers = []
 
-    def _create_threads(self):
-        
+        self._initialize_scraper()
+
+    def _initialize_scraper(self):
+        pool = []
+        # for i in range(self.__num_threads):
+        #     self._create_driver()
         for i in range(self.__num_threads):
-            thread = Thread(target = self._get_images)
+            thread = Thread(target = self._create_driver)
+            pool.append(thread)
+            thread.start()
+        
+        for thread in pool:
+            thread.join()
+            
+    def _create_threads(self):
+        for i in range(self.__num_threads):
+            thread = Thread(target = self._get_images, args = (self.__drivers[i],))
             self.__threads_pool.append(thread)
             thread.start()
 
@@ -32,7 +43,8 @@ class Scraper:
         if not self.__show_ui:
             self.__options.add_argument("headless")
         driver = webdriver.Chrome()
-        return driver
+        driver.get("https://www.google.com/imghp?hl=en")
+        self.__drivers.append(driver)
 
     def _load_thumbnails(self, driver):
         def get_thumbnails():
@@ -67,8 +79,8 @@ class Scraper:
         time.sleep(2)
         return thumbnails
 
-    def _get_images(self):
-        driver = webdriver.Chrome()
+    def _get_images(self, driver):
+        # driver = webdriver.Chrome()
         driver.get(self.__url)
         thumbnails = self._load_thumbnails(driver)
         
@@ -107,6 +119,11 @@ class Scraper:
         return url
 
     def scrape(self, query, count):
+        self.__threads_pool = []
+        self.__shared_index = 0
+        self.__shared_index_lock = Lock()
+        self.__images = set()
+
         self.__url = self.create_url(query)
         self.__image_limit = count
         start = time.time()

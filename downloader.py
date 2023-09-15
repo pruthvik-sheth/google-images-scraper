@@ -10,7 +10,6 @@ class Downloader:
     def __init__(self, path, min_num_threads = 5) -> None:
         self.__path = path
         self.__min_num_threads = min_num_threads
-        self.__threads_pool = []
 
     def _create_threads(self):
         num_batches = self.__min_num_threads
@@ -38,6 +37,7 @@ class Downloader:
             thread.join()
 
     def download(self, image_links, category):
+        self.__threads_pool = []
         self.__image_links = image_links
         self.__category = category
 
@@ -50,8 +50,6 @@ class Downloader:
         
     def download_image(self, thread_num,  start_idx, end_idx):
             print(f"Thread {thread_num} running: ")
-            print(len(self.__image_links))
-            print(start_idx, end_idx)
             # for link in enumerate(self.__image_links):
             for i in range(start_idx, end_idx):
                 try:
