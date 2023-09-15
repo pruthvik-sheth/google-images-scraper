@@ -17,8 +17,6 @@ class Scraper:
 
     def _initialize_scraper(self):
         pool = []
-        # for i in range(self.__num_threads):
-        #     self._create_driver()
         for i in range(self.__num_threads):
             thread = Thread(target = self._create_driver)
             pool.append(thread)
