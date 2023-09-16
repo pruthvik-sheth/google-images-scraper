@@ -76,6 +76,7 @@ You can customize the behavior of the scraper by modifying the `config.yaml` fil
 - `sender_email`: The email address used for sending notifications.
 - `receiver_email`: The email address to receive notifications.
 - `sender_email_password`: The password for the sender's email account.
+- `send_email`: Set True or False for sending emails.
 
 **Note**: If you want to use the email notifications functionality with a Gmail account, it's recommended to generate an [App Password](https://support.google.com/mail/answer/185833?hl=en) instead of using your account password.
 
@@ -88,15 +89,15 @@ You can customize the behavior of the scraper by modifying the `config.yaml` fil
 - `images_limit`: Set the maximum number of images to download per category.
 <br>
 
-### Project Structure
+### Project Info
 
 - `csv_downloads`: Directory to store CSV files.
 - `image_downloads`: Directory to store downloaded images.
-- `downloader.py`: Contains functions to download images using multi-threading.
-- `EmailService.py`: Provides functionality for email notifications (if needed).
-- `Scrapper.py`: The main script to initiate the scraping process with multi-threading.
+- `downloader.py`: Contains class to download images using multi-threading.
+- `email_service.py`: Provides functionality for email notifications (if needed).
+- `scraper.py`: The main scraper class to initiate the scraping process with multi-threading.
 - `config.yaml`: Configuration file to set up email and scraping parameters.
-- `LinkSaver.py`: Handles saving image links.
+- `link_saver.py`: Handles saving image links.
 - `main.py`: The main entry point for running the Google Images Scraper.
 <br>
 

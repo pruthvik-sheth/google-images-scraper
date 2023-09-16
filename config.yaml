@@ -1,12 +1,17 @@
-sender_email: ""
-receiver_email: ""
-sender_email_password: ""
+# Your email config here
+sender_email: "<YOUR_EMAIL_HERE>"
+receiver_email: "<YOUR_SENDER_EMAIL_HERE>"
+sender_email_password: "<YOUR_PASSWORD_HERE>"
+send_email: False
 
+# CSV and Images Saving paths
 csv_path: "./csv_downloads"
 image_path: "./image_downloads"
 
+# Queries
 search_queries:
   - Bedroom
   - Bathroom
 
+# Max Image Limit
 images_limit: 100

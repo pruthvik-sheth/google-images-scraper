@@ -1,6 +1,6 @@
 import smtplib
 
-class EmailService:
+class EmailSender:
 
     def __init__(self, sender, receiver, sender_password, mail_server = "smtp.gmail.com") -> None:
         self.__sender = sender
