@@ -1,4 +1,4 @@
-from scraping import Scraper
+from scraping.scraper import Scraper
 from utils.email_sender import EmailSender
 from utils.link_saver import LinkSaver
 from downloader.downloader import Downloader

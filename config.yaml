@@ -10,8 +10,7 @@ image_path: "./image_downloads"
 
 # Queries
 search_queries:
-  - Bedroom
-  - Bathroom
+  - kitchen with dishwasher
 
 # Max Image Limit
-images_limit: 100
+images_limit: 600
