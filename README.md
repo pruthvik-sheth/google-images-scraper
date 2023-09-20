@@ -141,3 +141,6 @@ Contributions to Google Images Scraper are welcome and encouraged! To contribute
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
+
+## Disclaimer
+This program lets you download tons of images from Google Images. Please do not download or use any image that violates its copyright terms.
