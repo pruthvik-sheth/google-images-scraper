@@ -10,7 +10,7 @@ image_path: "./image_downloads"
 
 # Queries
 search_queries:
-  - kitchen with dishwasher
+  - home tennis court
 
 # Max Image Limit
-images_limit: 600
+images_limit: 700
