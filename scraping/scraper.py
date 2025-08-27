@@ -48,7 +48,9 @@ class Scraper:
         def get_thumbnails():
             try:
                 print("\nFetching image thumbnails...")
-                thumbnails = driver.find_elements(By.XPATH, "//div[@class='isv-r PNCib ViTmJb BUooTd']")
+                # older = isv-r PNCib ViTmJb BUooTd
+                thumbnails = driver.find_elements(By.XPATH, "//div[@class='czzyk XOEbc']")
+                # updated = czzyk XOEbc
                 print(f"🤖: Found {len(thumbnails)} image thumbnails!")
             except Exception as e:
                 print("\n🔴🔴 Error while fetching image containers! 🔴🔴")
@@ -96,8 +98,10 @@ class Scraper:
                     thumbnails[index].click()
                     # print(index)
                     time.sleep(2)
-                    wait.until(EC.visibility_of_element_located((By.XPATH, """//img[@class='sFlh5c pT0Scc iPVvYb']""")))
-                    img_window = driver.find_element(By.XPATH, """//img[@class='sFlh5c pT0Scc iPVvYb']""")
+                    # older = sFlh5c pT0Scc iPVvYb
+                    wait.until(EC.visibility_of_element_located((By.XPATH, """//img[@class='sFlh5c FyHeAf iPVvYb']""")))
+                    # updated = sFlh5c FyHeAf iPVvYb
+                    img_window = driver.find_element(By.XPATH, """//img[@class='sFlh5c FyHeAf iPVvYb']""")
                     # time.sleep(2)
                     link = img_window.get_attribute('src')
                     self.__images.add(link)

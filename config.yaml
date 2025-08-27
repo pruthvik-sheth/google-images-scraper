@@ -10,7 +10,8 @@ image_path: "./image_downloads"
 
 # Queries
 search_queries:
-  - home tennis court
+  - Dog
+  - Cat
 
 # Max Image Limit
-images_limit: 700
+images_limit: 50
